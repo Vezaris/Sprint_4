@@ -1,59 +1,56 @@
-package Praktikum;
+package ru.yandex.practicum;
 
-import Praktikum.Page.DataEntryPageScooter;
-import Praktikum.Page.HomePageScooter;
-import Praktikum.Page.RentalPageScooter;
+import ru.yandex.practicum.Page.DataEntryPageScooter;
+import ru.yandex.practicum.Page.HomePageScooter;
+import ru.yandex.practicum.Page.RentalPageScooter;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.hamcrest.MatcherAssert;
 import static org.hamcrest.CoreMatchers.containsString;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /******************************************** ТЕСТ ЗАКАЗА *****************************************************/
 
 @RunWith(Parameterized.class)
 public class TestOrder {
-    String expectedTextSuccess;
-    String actualTextSuccess;
     // Имя
-    private final String nameField;
+    private final String FIRST_NAME;
     // Фамилия
-    private final String surnameField;
+    private final String SECOND_NAME;
     // Адрес
-    private final String addressField;
+    private final String ADDRESS;
     // Метро
-    private final String metroField;
+    private final String METRO;
     // Телефон
-    private final String phoneField;
-    private final String delivDate;
-    private final String rentalTime;
-    private final String colorID;
-    private final String comment;
-
-
-    // Конструктор для ввода данных пользователя
-    public TestOrder(String firstNameField, String secondNameField, String addressField, String metroField, String phoneField, String delivDate, String rentalTime, String colorID, String comment) {
-        this.nameField = firstNameField;
-        this.surnameField = secondNameField;
-        this.addressField = addressField;
-        this.metroField = metroField;
-        this.phoneField = phoneField;
-        this.delivDate = delivDate;
-        this.rentalTime = rentalTime;
-        this.colorID = colorID;
-        this.comment = comment;
-    }
-
+    private final String PHONE;
+    private final String DELIV_DATE;
+    private final String RENTAL_TIME;
+    private final String COLOR_ID;
+    private final String COMMENT;
     // Создание объекта класса для получения драйвера
     @Rule
     public DriverRule driverRule = new DriverRule();
+    String expectedTextSuccess;
+    String actualTextSuccess;
+
+    // Конструктор для ввода данных пользователя
+    public TestOrder(String firstName, String secondName, String address, String metro, String phone, String delivDate, String rentalTime, String colorID, String comment) {
+        this.FIRST_NAME = firstName;
+        this.SECOND_NAME = secondName;
+        this.ADDRESS = address;
+        this.METRO = metro;
+        this.PHONE = phone;
+        this.DELIV_DATE = delivDate;
+        this.RENTAL_TIME = rentalTime;
+        this.COLOR_ID = colorID;
+        this.COMMENT = comment;
+    }
 
     // Тестовые данные для оформления заказа
     @Parameterized.Parameters
     public static Object[][] getDataEntry() {
-        return new Object[][] {
+        return new Object[][]{
                 {"ИмяПервое", "ФамилияПервая", "Адрес1", "Строгино", "79990001122", "20.12.2023", "двое суток", "black", "Комментарий"},
                 {"ИмяВторое", "ФамилияВторая", "Адрес2", "Курская", "79990003344", "20.12.2024", "трое суток", "grey", "Еще комментарий"},
         };
@@ -71,17 +68,16 @@ public class TestOrder {
         // Создание объекта страницы ввода данных пользователя
         DataEntryPageScooter objEntryPage = new DataEntryPageScooter(driverRule.getDriver());
         // Заполнение данных пользователя
-        objEntryPage.fillFieldsCustomer(nameField, surnameField, addressField, metroField, phoneField);
+        objEntryPage.fillFieldsCustomer(FIRST_NAME, SECOND_NAME, ADDRESS, METRO, PHONE);
         // Создание объекта страницы аренды самоката
         RentalPageScooter objRentPage = new RentalPageScooter(driverRule.getDriver());
         // Заполенение данных аренды
-        objRentPage.fillFieldRental(delivDate, rentalTime, colorID, comment);
+        objRentPage.fillFieldRental(DELIV_DATE, RENTAL_TIME, COLOR_ID, COMMENT);
         // Нажатие кнопки подтверждения заказа
         objRentPage.confirmOrderClick();
-        // Получение актуального
-        actualTextSuccess = objRentPage.getExpectedTextOrder();
-        expectedTextSuccess = objRentPage.actualTextOrder();
-        MatcherAssert.assertThat("Заказ не оформлен", expectedTextSuccess, containsString(actualTextSuccess));
+        actualTextSuccess = objRentPage.actualTextOrder();
+        expectedTextSuccess = objRentPage.getExpectedTextOrder();
+        assertThat("Заказ не оформлен", actualTextSuccess, containsString(expectedTextSuccess));
     }
 
     @Test
@@ -95,15 +91,15 @@ public class TestOrder {
         // Создание объекта страницы ввода данных пользователя
         DataEntryPageScooter objEntryPage = new DataEntryPageScooter(driverRule.getDriver());
         // Заполнение данных пользователя
-        objEntryPage.fillFieldsCustomer(nameField, surnameField, addressField, metroField, phoneField);
+        objEntryPage.fillFieldsCustomer(FIRST_NAME, SECOND_NAME, ADDRESS, METRO, PHONE);
         // Создание объекта страницы аренды самоката
         RentalPageScooter objRentPage = new RentalPageScooter(driverRule.getDriver());
         // Заполенение данных аренды
-        objRentPage.fillFieldRental(delivDate, rentalTime, colorID, comment);
+        objRentPage.fillFieldRental(DELIV_DATE, RENTAL_TIME, COLOR_ID, COMMENT);
         // Нажатие кнопки подтверждения заказа
         objRentPage.confirmOrderClick();
         actualTextSuccess = objRentPage.actualTextOrder();
         expectedTextSuccess = objRentPage.getExpectedTextOrder();
-        MatcherAssert.assertThat("Заказ не оформлен", actualTextSuccess, containsString(expectedTextSuccess));
+        assertThat("Заказ не оформлен", actualTextSuccess, containsString(expectedTextSuccess));
     }
 }

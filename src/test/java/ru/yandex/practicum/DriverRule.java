@@ -1,4 +1,4 @@
-package Praktikum;
+package ru.yandex.practicum;
 
 import org.junit.rules.ExternalResource;
 import org.openqa.selenium.WebDriver;
@@ -10,16 +10,16 @@ public class DriverRule extends ExternalResource {
     WebDriver driver;
 
     @Override
-    // Срздание драйвера и ждун
+    // Создание драйвера и ждун
     protected void before() {
         if ("firefox".equals(System.getProperty("browser")))
             setupFirefox();
         else
             setupChrome();
-        driver.manage().timeouts().pageLoadTimeout(EnvConfig.defoultTimeout, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(EnvConfig.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     }
 
-    public void setupChrome () {
+    public void setupChrome() {
         driver = new ChromeDriver();
 
         // Для конерктного пути
@@ -34,7 +34,7 @@ public class DriverRule extends ExternalResource {
         driver = new ChromeDriver(service, options);*/
     }
 
-    public void setupFirefox () {
+    public void setupFirefox() {
         driver = new FirefoxDriver();
 
         // Для конерктного пути
@@ -51,7 +51,7 @@ public class DriverRule extends ExternalResource {
 
     @Override
     // Закрытие драйвера
-    protected void after()  {
+    protected void after() {
         driver.quit();
     }
 

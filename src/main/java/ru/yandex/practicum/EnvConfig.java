@@ -1,12 +1,13 @@
-package Praktikum;
+package ru.yandex.practicum;
 
 public class EnvConfig {
 
     /*---------------------------------------- Время для ждунов ---------------------------------------------*/
-    public static final int defoultTimeout = 5;
-    public static final int longTimeout = 15;
 
+    public static final int DEFAULT_TIMEOUT = 5;
+    public static final int LONG_TIMEOUT = 15;
 
     /*--------------------------------------------- URL ----------------------------------------------------*/
-    public static final String UrlForTestScooter = "https://qa-scooter.praktikum-services.ru/";
+
+    public static final String URL_FOR_TEST_SCOOTER = "https://qa-scooter.praktikum-services.ru/";
 }
